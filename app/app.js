@@ -15,7 +15,12 @@ document.querySelector('form')
 
 // listen for messages
 socket.on('message', (data) => {
-    const p = document.createElement('p');
-    p.textContent = data;
+    const p = document.createElement('p'),
+          span = document.createElement('span');
+    p.classList = 'message';
+    message = data.split(':');
+    span.textContent = message[0];
+    p.appendChild(span);
+    p.textContent += message[1];
     document.querySelector('#msg-container').appendChild(p);
 })

@@ -18,8 +18,8 @@ io.on('connection', socket => {
         io.emit('message', `${socket.id.substring(0,5)}: ${data}`);
     });
 
-    socket.on('close', () => {
-        console.log('Client disconnected');
+    socket.on('disconnect', () => {
+        console.log(`Client ${socket.id} disconnected`);
     });
 });
 
