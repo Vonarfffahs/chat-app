@@ -10,17 +10,35 @@ const sendMessage = (e) => {
     input.focus();
 }
 
-document.querySelector('form')
-    .addEventListener('submit', sendMessage);
+document.querySelector('form').addEventListener('submit', sendMessage);
 
 // listen for messages
 socket.on('message', (data) => {
     const p = document.createElement('p'),
-          span = document.createElement('span');
+          span = document.createElement('span'),
+          messageItem = document.createElement('div');
+
+    messageItem.classList = 'message-item';
+    span.classList = 'nickname';
     p.classList = 'message';
+
+    const color = '#' + stringToHex(socket.id.toLowerCase()); // unique id color
+    span.style.backgroundColor = color;
+
     message = data.split(':');
-    span.textContent = message[0];
-    p.appendChild(span);
+    span.textContent = message[0].substring(0,2);
     p.textContent += message[1];
-    document.querySelector('#msg-container').appendChild(p);
+
+    messageItem.appendChild(span);
+    messageItem.appendChild(p);
+
+    document.querySelector('#msg-container').appendChild(messageItem);
 })
+
+function stringToHex(str) {
+    let hex = '';
+    for (let i = 0; i < str.length; i++) {
+        hex += str.charCodeAt(i).toString(16);
+    }
+    return hex.substring(0,6);
+}
